@@ -40,7 +40,7 @@ func _ready():
 		$Text1/AnimationPlayer.play("MultiText")
 	pass
 func _process(delta):
-	if Input.is_action_just_pressed("ui_accept") and $Text2/AnimationPlayer.is_playing() == false and $Text1/AnimationPlayer.is_playing() == false:
+	if Input.is_action_just_pressed("z") and $Text2/AnimationPlayer.is_playing() == false and $Text1/AnimationPlayer.is_playing() == false:
 		if textLines == 1 and isFinished == true:
 			self.queue_free()
 			if isFinished:
