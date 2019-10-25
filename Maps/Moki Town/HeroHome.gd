@@ -26,13 +26,21 @@ func interaction(collider):
 	isInteracting = true
 	canInteract = false
 	
-	var node = check_node(collider)
-	#player.freezePlayer()
-	if node == $Floor2/Console:
+	print($Floor2/TV.position)
+	if collider == $Floor2/Console.position:
+		player.disable_input()
 		consoleDialoge()
-	if node == $Floor2/TV:
+	if collider == $Floor2/TV.position:
+		player.disable_input()
 		Floor2TVDialoge()
-	if node == $Floor2/Self:
+	if collider == $Floor2/TV2.position:
+		player.disable_input()
+		Floor2TV2Dialoge()
+	if collider == $Floor2/Shelf.position:
+		player.disable_input()
+		Floor2SelfDialoge()
+	if collider == $Floor2/Shelf2.position:
+		player.disable_input()
 		Floor2SelfDialoge()
 
 func check_node(pos):
@@ -43,21 +51,22 @@ func check_node(pos):
 	pass
 
 func Floor2TVDialoge():
-	player.disable_input()
 	newdialog([
 	"There's an ad for a new video game on TV.",
 	"It's a Pokémon battle simulation game",
 	"called \"Red and Blue Version\"",
 	"...Okay, time to go!"
 	], false)
-	player.enable_input()
+func Floor2TV2Dialoge():
+	newdialog([
+	"That's the wrong side."
+	], false)
 func consoleDialoge():
 	var text = [
 	"It's a Nintendo Wii U.",
 	"But the new Nintendo Switch is better."
 	]
 	newdialog(text,false)
-	pass
 func Floor2SelfDialoge():
 	newdialog([
 	"It's crammed full of books about Pokémon",
@@ -79,6 +88,7 @@ func newRichDialog(var text, var forceArrow):
 func dialogEnd():
 	isInteracting = false
 	$InteractTimer.start()
+	player.enable_input()
 	pass
 func _on_InteractTimer_timeout():
 	canInteract = true
@@ -86,7 +96,6 @@ func _on_InteractTimer_timeout():
 
 func _on_DownStairs_area_shape_entered(area_id, area, area_shape, self_shape):
 	room_transition("Down")
-	
 
 func _on_UpStairs_area_shape_entered(area_id, area, area_shape, self_shape):
 	room_transition("Up")
@@ -107,16 +116,16 @@ func room_transition(dir):
 		Global.TrainerX = 1184
 		Global.TrainerY = 80
 	
+	if dir == "Up":
+		player.direction = 2
+	elif dir == "Down":
+		player.direction = 1
 	
 	player.position = Vector2(Global.TrainerX, Global.TrainerY)
 	player.movePrevious()
-	yield(get_tree().create_timer(0.5), "timeout")
+	yield(get_tree().create_timer(0.3), "timeout")
 	$CanvasLayer/Node2D/AnimationPlayer.play("fade_out")
 	
-	if dir == "Up":
-		player.move_direction = Vector2(32, 0)
-	elif dir == "Down":
-		player.move_direction = Vector2(-32, 0)
 	
 	player.move()
 	player.movePrevious()

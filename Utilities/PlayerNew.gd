@@ -9,6 +9,10 @@ var facing = DIRECTION.DOWN
 var inputDisabled = false
 var foot = 0
 
+var check_x = 0
+var check_y = 0
+var check_pos = Vector2()
+
 var move_direction = Vector2()
 
 var action
@@ -39,7 +43,9 @@ enum DIRECTION{
 	DOWN,
 	LEFT,
 	RIGHT,
-	UP
+	UP,
+	DOWN_LEFT,
+	UP_RIGHT
 }
 
 func _ready():
@@ -47,25 +53,27 @@ func _ready():
 
 func _process(delta):
 	if !isMoving:
-		if canMove and !Input.is_action_pressed("z"):
+		if canMove and !Input.is_action_pressed("interact"):
 			get_input()
-		elif canMove and Input.is_action_just_pressed("z"):
+		elif canMove and Input.is_action_just_pressed("interact"):
 			interact()
 
 func disable_input():
 	get_tree().paused = true
+	inputDisabled = true
 
 func enable_input():
 	get_tree().paused = false
+	inputDisabled = false
 
 func get_input():
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("move_down"):
 		direction = DIRECTION.DOWN
-	elif Input.is_action_pressed("ui_up"):
+	elif Input.is_action_pressed("move_up"):
 		direction = DIRECTION.UP
-	elif Input.is_action_pressed("ui_left"):
+	elif Input.is_action_pressed("move_left"):
 		direction = DIRECTION.LEFT
-	elif Input.is_action_pressed("ui_right"):
+	elif Input.is_action_pressed("move_right"):
 		direction = DIRECTION.RIGHT
 	else:
 		state = STATE.IDLE
@@ -83,37 +91,49 @@ func get_input():
 	move()
 
 func interact():
-	$Interact/Area2D/CollisionShape2D.disabled = false
+	check_x = self.position.x
+	check_y = self.position.y
 	
-	if direction == DIRECTION.DOWN:
-		$Interact.position += Vector2(0, 32)
-	elif direction == DIRECTION.UP:
-		$Interact.position += Vector2(0, -32)
-	elif direction == DIRECTION.LEFT:
-		$Interact.position += Vector2(-32, 0)
-	elif direction == DIRECTION.RIGHT:
-		$Interact.position += Vector2(32, 0)
+	if direction == 0:
+		check_x += 16
+		check_y += 32
+	if direction == 3:
+		check_x -= 16
+		check_y -= 32
+	if direction == 1:
+		check_x -= 48
+	if direction == 2:
+		check_x += 16
 	
-	var collider = $Interact.position
+	check_pos.x = check_x
+	check_pos.y = check_y
 	
-	get_parent().interaction(collider)
+	print(self.position)
+	print(check_pos)
 	
-	$Interact/Area2D/CollisionShape2D.disabled = true
-	
-	pass
+	get_parent().interaction(check_pos)
+
 
 func move():
 	set_process(false)
 	inputDisabled = true
+	move_direction = Vector2.ZERO
 	
 	if direction == DIRECTION.DOWN:
-		move_direction = Vector2(0, 32)
-	elif direction == DIRECTION.UP:
-		move_direction = Vector2(0, -32)
-	elif direction == DIRECTION.LEFT:
-		move_direction = Vector2(-32, 0)
-	elif direction == DIRECTION.RIGHT:
-		move_direction = Vector2(32, 0)
+		move_direction.y = 32
+	if direction == DIRECTION.UP:
+		move_direction.y = -32
+	if direction == DIRECTION.LEFT:
+		move_direction.x = -32
+	if direction == DIRECTION.RIGHT:
+		move_direction.x = 32
+	if direction == DIRECTION.DOWN_LEFT:
+		move_direction.x = -32
+		move_direction.y = 32
+	if direction == DIRECTION.UP_RIGHT:
+		move_direction.x = 32
+		move_direction.y = -32
+	
 	
 	# Start Animation
 	animate()
@@ -201,7 +221,6 @@ func animate():
 				$AnimationPlayer.play("Right_sprint2")
 
 func _on_Area2D_body_entered(body):
-	print(body)
 	stop_tween()
 	$PreviousCollision.position += move_direction
 	position -= move_direction

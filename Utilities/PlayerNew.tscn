@@ -336,6 +336,7 @@ shape = SubResource( 17 )
 disabled = true
 
 [node name="Interact" type="Position2D" parent="."]
+editor/display_folded = true
 
 [node name="Area2D" type="Area2D" parent="Interact"]
 

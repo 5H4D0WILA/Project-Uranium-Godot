@@ -13,7 +13,7 @@ extents = Vector2( 16.0684, 16.0237 )
 extents = Vector2( 16, 16 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 32, 32 )
+extents = Vector2( 16.0248, 15.9817 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 16, 16.1965 )
@@ -34,6 +34,7 @@ margin_bottom = 2500.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Floor1" type="Node2D" parent="."]
+editor/display_folded = true
 position = Vector2( 1040, 0 )
 
 [node name="TileMap1" type="TileMap" parent="Floor1"]
@@ -76,7 +77,7 @@ tile_data = PoolIntArray( -1, 35, 0, -65536, 35, 0, -65535, 35, 0, -65534, 35, 0
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
 format = 1
-tile_data = PoolIntArray( 131075, 3, 0, 131076, 4, 0, 131077, 4, 0, 131078, 4, 0, 131079, 5, 0, 196611, 6, 0, 196612, 7, 0, 196613, 7, 0, 196614, 7, 0, 196615, 8, 0, 262147, 6, 0, 262148, 7, 0, 262149, 7, 0, 262150, 7, 0, 262151, 8, 0, 327683, 9, 0, 327684, 10, 0, 327685, 10, 0, 327686, 10, 0, 327687, 11, 0 )
+tile_data = PoolIntArray( 65536, 44, 0, 65537, 44, 1, 131072, 44, 65536, 131073, 44, 65537, 131075, 3, 0, 131076, 4, 0, 131077, 4, 0, 131078, 4, 0, 131079, 5, 0, 196611, 6, 0, 196612, 7, 0, 196613, 7, 0, 196614, 7, 0, 196615, 8, 0, 262147, 6, 0, 262148, 7, 0, 262149, 7, 0, 262150, 7, 0, 262151, 8, 0, 327683, 9, 0, 327684, 10, 0, 327685, 10, 0, 327686, 10, 0, 327687, 11, 0 )
 
 [node name="TileMap3" type="TileMap" parent="Floor2"]
 tile_set = ExtResource( 3 )
@@ -88,21 +89,23 @@ tile_data = PoolIntArray( 262148, 17, 0, 262149, 17, 0, 327680, 17, 0 )
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
 format = 1
-tile_data = PoolIntArray( 2, 22, 0, 65536, 27, 0, 65540, 13, 0, 65542, 15, 0, 65544, 16, 0, 196608, 2, 0, 196612, 14, 0, 393225, 36, 0 )
+tile_data = PoolIntArray( 2, 22, 0, 65540, 13, 0, 65542, 15, 0, 65544, 16, 0, 196608, 44, 131072, 196609, 44, 131073, 196612, 14, 0, 262144, 45, 65536, 262145, 45, 65537, 393225, 36, 0 )
 
 [node name="TileMap5" type="TileMap" parent="Floor2"]
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
 format = 1
-tile_data = PoolIntArray( 327689, 37, 0, 524334, 37, 0 )
+tile_data = PoolIntArray( 196608, 45, 0, 196609, 45, 1, 327689, 37, 0, 524334, 37, 0 )
 
 [node name="Console" type="StaticBody2D" parent="Floor2" groups=[
 "interact",
 ]]
-editor/display_folded = true
 position = Vector2( 144, 112 )
 collision_layer = 2
 collision_mask = 2
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2/Console"]
 shape = SubResource( 2 )
@@ -110,23 +113,56 @@ shape = SubResource( 2 )
 [node name="TV" type="StaticBody2D" parent="Floor2" groups=[
 "interact",
 ]]
-editor/display_folded = true
-position = Vector2( 160, 64 )
+position = Vector2( 176, 80 )
 collision_layer = 2
 collision_mask = 2
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2/TV"]
+shape = SubResource( 3 )
+
+[node name="TV2" type="StaticBody2D" parent="Floor2" groups=[
+"interact",
+]]
+editor/display_folded = true
+position = Vector2( 144, 80 )
+collision_layer = 2
+collision_mask = 2
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2/TV2"]
 shape = SubResource( 3 )
 
 [node name="Shelf" type="StaticBody2D" parent="Floor2" groups=[
 "interact",
 ]]
 editor/display_folded = true
-position = Vector2( 288, 64 )
+position = Vector2( 304, 80 )
 collision_layer = 2
 collision_mask = 2
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2/Shelf"]
+shape = SubResource( 3 )
+
+[node name="Shelf2" type="StaticBody2D" parent="Floor2" groups=[
+"interact",
+]]
+editor/display_folded = true
+position = Vector2( 272, 80 )
+collision_layer = 2
+collision_mask = 2
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2/Shelf2"]
 shape = SubResource( 3 )
 
 [node name="DownStairs" type="Area2D" parent="Floor2"]
